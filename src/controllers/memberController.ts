@@ -35,6 +35,16 @@ export const addNewMember = async (req: Request, res: Response) => {
       })
     }
 
+    if (
+      req.body.membership &&
+      !['silver', 'platinum', 'gold'].includes(req.body.membership)
+    ) {
+      return res.status(400).json({
+        message:
+          `Membership field must be "silver" "platinum" or "gold"`
+      })
+    }
+
     const newMember = await service.add(req.body)
     return res.status(201).json(newMember)
   } catch (error: any) {
@@ -67,6 +77,16 @@ export const updateMember = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json({ message: 'Cannot update id, createdAt, or updatedAt fields' })
+    }
+
+    if (
+      req.body.membership &&
+      !['silver', 'platinum', 'gold'].includes(req.body.membership)
+    ) {
+      return res.status(400).json({
+        message:
+          `Membership field must be "silver" "platinum" or "gold"`
+      })
     }
 
     const updatedMember = await service.update(Number(req.params.id), req.body)
