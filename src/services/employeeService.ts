@@ -1,36 +1,30 @@
-type Employee = {
-    id: Number
-    name: String,
-    cpf: String,
-    wage: Number
+import { Employee } from '../generated/prisma'
+import { prisma } from '../database/prisma'
+
+type employeeCreateData = Omit<Employee, 'id' | 'createdAt' | 'updatedAt'>
+type employeeUpdateDate = Partial<employeeCreateData>
+
+export const getAll = async (): Promise<Employee[]> => {
+  return prisma.employee.findMany()
 }
 
-let employees: Employee[] = []
-
-const EmployeeService = {
-    getEmployees(): Employee[] {
-        return employees
-    },
-
-    getEmployeeById(id: number): Employee {
-        const employee = employees.find(e => e.id === id)
-        if (!employee) {
-            throw new Error("Employee not found")
-        }
-        return employee
-    },
-
-    addNewEmployee(newEmployee: Employee): void {
-        employees.push(newEmployee)
-    },
-
-    deleteEmployee(oldEmployee: Employee): void {
-        employees = employees.filter(e => e.id === oldEmployee.id)
-    },
-
-    updateEmployee(updatedEmployee: Employee): void {
-        employees = employees.map(e => e.id === updatedEmployee.id ? updatedEmployee : e)
-    }
+export const getById = async (id: number): Promise<Employee | null> => {
+  return prisma.employee.findUnique({ where: { id } })
 }
 
-export default EmployeeService
+export const add = async (data: employeeCreateData): Promise<Employee> => {
+  const { id, createdAt, updatedAt, ...cleanData } = data as any
+  return prisma.employee.create({ data: cleanData })
+}
+
+export const update = async (
+  id: number,
+  data: employeeUpdateDate
+): Promise<Employee> => {
+  const { id: excludeId, createdAt, updatedAt, ...cleanData } = data as any
+  return prisma.employee.update({ where: { id }, data: cleanData })
+}
+
+export const remove = async (id: number): Promise<Employee> => {
+  return prisma.employee.delete({ where: { id } })
+}
