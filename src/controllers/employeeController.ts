@@ -1,9 +1,10 @@
 import { Request, Response } from 'express'
-import * as employeeService from '../services/employeeService'
+
+import * as service from '../services/employeeService'
 
 export const getAllEmployees = async (req: Request, res: Response) => {
   try {
-    const employees = await employeeService.getAll()
+    const employees = await service.getAll()
     return res.json(employees)
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
@@ -12,7 +13,7 @@ export const getAllEmployees = async (req: Request, res: Response) => {
 
 export const getEmployeeById = async (req: Request, res: Response) => {
   try {
-    const employee = await employeeService.getById(Number(req.params.id))
+    const employee = await service.getById(Number(req.params.id))
     return !employee
       ? res.status(404).json({ message: 'Employee not found' })
       : res.json(employee)
@@ -34,7 +35,7 @@ export const addNewEmployee = async (req: Request, res: Response) => {
       })
     }
 
-    const newEmployee = await employeeService.add(req.body)
+    const newEmployee = await service.add(req.body)
     return res.status(201).json(newEmployee)
   } catch (error: any) {
     if (error.code === 'p2002')
@@ -47,7 +48,7 @@ export const addNewEmployee = async (req: Request, res: Response) => {
 
 export const removeEmployee = async (req: Request, res: Response) => {
   try {
-    const toRemoveEmployee = await employeeService.remove(Number(req.params.id))
+    const toRemoveEmployee = await service.remove(Number(req.params.id))
     return !toRemoveEmployee
       ? res.status(404).json({ message: 'Employee not found' })
       : res.status(204).send()
@@ -68,7 +69,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
       })
     }
 
-    const toUpdateEmployee = await employeeService.update(
+    const toUpdateEmployee = await service.update(
       Number(req.params.id),
       req.body
     )
