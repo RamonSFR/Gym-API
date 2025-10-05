@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import * as service from '../services/membersService'
+import * as service from '../services/memberService'
 
 export const getAllMembers = async (req: Request, res: Response) => {
   try {
