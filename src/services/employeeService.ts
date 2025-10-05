@@ -2,7 +2,7 @@ import { Employee } from '../generated/prisma'
 import { prisma } from '../database/prisma'
 
 type employeeCreateData = Omit<Employee, 'id' | 'createdAt' | 'updatedAt'>
-type employeeUpdateDate = Partial<employeeCreateData>
+type employeeUpdateData = Partial<employeeCreateData>
 
 export const getAll = async (): Promise<Employee[]> => {
   return prisma.employee.findMany()
@@ -19,7 +19,7 @@ export const add = async (data: employeeCreateData): Promise<Employee> => {
 
 export const update = async (
   id: number,
-  data: employeeUpdateDate
+  data: employeeUpdateData
 ): Promise<Employee> => {
   const { id: excludeId, createdAt, updatedAt, ...cleanData } = data as any
   return prisma.employee.update({ where: { id }, data: cleanData })
