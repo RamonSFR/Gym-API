@@ -20,6 +20,7 @@
   "homepage": "https://github.com/RamonSFR/Gym-API#readme",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.16.3",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2"
@@ -28,6 +29,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.6.2",
     "prettier": "^3.6.2",
+    "prisma": "^6.16.3",
     "typescript": "^5.9.3"
   }
 }

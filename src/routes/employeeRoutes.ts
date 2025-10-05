@@ -1,11 +1,11 @@
 import { Router } from 'express'
 
-const router = Router()
+const employeeRoutes = Router()
 
-router.get('/employees')
-router.get('/employees/:{id}')
-router.post('/employees')
-router.delete('/eployees/:{id}')
-router.put('employees/:{id}')
+employeeRoutes.get('/employees')
+employeeRoutes.get('/employees/:{id}')
+employeeRoutes.post('/employees')
+employeeRoutes.delete('/eployees/:{id}')
+employeeRoutes.put('/employees/:{id}')
 
-export default router
+export default employeeRoutes
