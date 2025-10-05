@@ -17,10 +17,22 @@ datasource db {
 model Employee {
   id        Int      @id @default(autoincrement())
   name      String
+  role      String
   cpf       String   @unique
   wage      Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("employees")
+}
+
+model Member {
+  id  Int @id @default(autoincrement())
+  name String
+  membership String
+  cpf String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("members")
 }
