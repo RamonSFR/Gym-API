@@ -40,8 +40,7 @@ export const addNewMember = async (req: Request, res: Response) => {
       !['silver', 'platinum', 'gold'].includes(req.body.membership)
     ) {
       return res.status(400).json({
-        message:
-          `Membership field must be "silver" "platinum" or "gold"`
+        message: `Membership field must be "silver" "platinum" or "gold"`
       })
     }
 
@@ -58,11 +57,12 @@ export const addNewMember = async (req: Request, res: Response) => {
 
 export const removeMember = async (req: Request, res: Response) => {
   try {
-    const toRemoveMember = await service.remove(Number(req.params.id))
-    return !toRemoveMember
-      ? res.status(404).json({ message: 'Member not found' })
-      : res.status(204).send()
+    await service.remove(Number(req.params.id))
+    return res.status(204).send()
   } catch (error: any) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ message: 'Member not found' })
+    }
     return res.status(500).json({ message: error.message })
   }
 }
@@ -84,8 +84,7 @@ export const updateMember = async (req: Request, res: Response) => {
       !['silver', 'platinum', 'gold'].includes(req.body.membership)
     ) {
       return res.status(400).json({
-        message:
-          `Membership field must be "silver" "platinum" or "gold"`
+        message: `Membership field must be "silver" "platinum" or "gold"`
       })
     }
 

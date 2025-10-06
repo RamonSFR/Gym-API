@@ -39,22 +39,21 @@ export const addNewEmployee = async (req: Request, res: Response) => {
     return res.status(201).json(newEmployee)
   } catch (error: any) {
     if (error.code === 'P2002')
-      return res
-        .status(409)
-        .json({
-          message: `Unique field already exists: ${error.meta?.target || 'unknown field'}`
-        })
+      return res.status(409).json({
+        message: `Unique field already exists: ${error.meta?.target || 'unknown field'}`
+      })
     return res.status(500).json({ message: error.message })
   }
 }
 
 export const removeEmployee = async (req: Request, res: Response) => {
   try {
-    const oldEmployee = await service.remove(Number(req.params.id))
-    return !oldEmployee
-      ? res.status(404).json({ message: 'Employee not found' })
-      : res.status(204).send()
+    await service.remove(Number(req.params.id))
+    return res.status(204).send()
   } catch (error: any) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ message: 'Employee not found' })
+    }
     return res.status(500).json({ message: error.message })
   }
 }
@@ -80,11 +79,9 @@ export const updateEmployee = async (req: Request, res: Response) => {
     if (error.code === 'P2025')
       return res.status(404).json({ message: 'Employee not found' })
     if (error.code === 'P2002')
-      return res
-        .status(409)
-        .json({
-          message: `Unique field already exists: ${error.meta?.target || 'unknown field'}`
-        })
+      return res.status(409).json({
+        message: `Unique field already exists: ${error.meta?.target || 'unknown field'}`
+      })
     return res.status(500).json({ message: error.message })
   }
 }

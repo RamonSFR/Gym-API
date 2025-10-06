@@ -76,11 +76,12 @@ export const addNewWorkout = async (req: Request, res: Response) => {
 
 export const removeWorkout = async (req: Request, res: Response) => {
   try {
-    const oldWorkout = await service.remove(Number(req.params.id))
-    return !oldWorkout
-      ? res.status(404).json({ message: 'Workout not found' })
-      : res.status(204).send()
+    await service.remove(Number(req.params.id))
+    return res.status(204).send()
   } catch (error: any) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ message: 'Workout not found' })
+    }
     return res.status(500).json({ message: error.message })
   }
 }
