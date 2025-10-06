@@ -5,11 +5,7 @@ type employeeCreateData = Omit<Employee, 'id' | 'createdAt' | 'updatedAt'>
 type employeeUpdateData = Partial<employeeCreateData>
 
 export const getAll = async (): Promise<Employee[]> => {
-  return prisma.employee.findMany({
-    include: {
-      workouts: true
-    }
-  })
+  return prisma.employee.findMany()
 }
 
 export const getById = async (id: number): Promise<Employee | null> => {
