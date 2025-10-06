@@ -1,6 +1,8 @@
 import { Router } from 'express'
 
 import * as controller from '../controllers/employeeController'
+import { validateBody, validateParams } from '../middlewares/validation'
+import { createEmployeeSchema, idParamSchema, updateEmployeeSchema } from '../schemas/validation'
 
 const employeeRoutes = Router()
 
@@ -49,7 +51,7 @@ employeeRoutes.get('/employees', controller.getAllEmployees)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-employeeRoutes.get('/employees/:id', controller.getEmployeeById)
+employeeRoutes.get('/employees/:id', validateParams(idParamSchema), controller.getEmployeeById)
 
 /**
  * @swagger
@@ -92,7 +94,7 @@ employeeRoutes.get('/employees/:id', controller.getEmployeeById)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-employeeRoutes.post('/employees', controller.addNewEmployee)
+employeeRoutes.post('/employees', validateBody(createEmployeeSchema), controller.addNewEmployee)
 
 /**
  * @swagger
@@ -115,7 +117,7 @@ employeeRoutes.post('/employees', controller.addNewEmployee)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-employeeRoutes.delete('/employees/:id', controller.removeEmployee)
+employeeRoutes.delete('/employees/:id', validateParams(idParamSchema), controller.removeEmployee)
 
 /**
  * @swagger
@@ -166,6 +168,6 @@ employeeRoutes.delete('/employees/:id', controller.removeEmployee)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-employeeRoutes.put('/employees/:id', controller.updateEmployee)
+employeeRoutes.put('/employees/:id', validateParams(idParamSchema), validateBody(updateEmployeeSchema), controller.updateEmployee)
 
 export default employeeRoutes

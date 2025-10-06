@@ -1,14 +1,13 @@
 import express from 'express'
+import 'dotenv/config'
 import { Express } from 'express'
 import swaggerUi from 'swagger-ui-express'
 import swaggerSpec from './swagger/swagger'
 
-import employeeRoutes from './routes/employeeRoutes'
-import membersRoutes from './routes/membersRoutes'
-import workoutRoutes from './routes/workoutsRoutes'
+import routes from './routes'
 
 const app: Express = express()
-const port: number = 3000
+const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 
@@ -22,13 +21,11 @@ app.use(
   })
 )
 
-app.use(employeeRoutes)
-app.use(membersRoutes)
-app.use(workoutRoutes)
+app.use('', routes)
 
-app.listen(port, () => {
-  console.log(`API running at: http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`API running at: http://localhost:${PORT}`)
   console.log(
-    `Swagger documentation available at: http://localhost:${port}/api-docs`
+    `Swagger documentation available at: http://localhost:${PORT}/api-docs`
   )
 })

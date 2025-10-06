@@ -1,5 +1,11 @@
 import { Router } from 'express'
 import * as controller from '../controllers/workoutController'
+import { validateBody, validateParams } from '../middlewares/validation'
+import {
+  createWorkoutSchema,
+  idParamSchema,
+  updateWorkoutSchema
+} from '../schemas/validation'
 
 const workoutRoutes = Router()
 
@@ -48,7 +54,11 @@ workoutRoutes.get('/workouts', controller.getAllWorkouts)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-workoutRoutes.get('/workouts/:id', controller.getWorkoutById)
+workoutRoutes.get(
+  '/workouts/:id',
+  validateParams(idParamSchema),
+  controller.getWorkoutById
+)
 
 /**
  * @swagger
@@ -97,7 +107,11 @@ workoutRoutes.get('/workouts/:id', controller.getWorkoutById)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-workoutRoutes.post('/workouts', controller.addNewWorkout)
+workoutRoutes.post(
+  '/workouts',
+  validateBody(createWorkoutSchema),
+  controller.addNewWorkout
+)
 
 /**
  * @swagger
@@ -120,7 +134,11 @@ workoutRoutes.post('/workouts', controller.addNewWorkout)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-workoutRoutes.delete('/workouts/:id', controller.removeWorkout)
+workoutRoutes.delete(
+  '/workouts/:id',
+  validateParams(idParamSchema),
+  controller.removeWorkout
+)
 
 /**
  * @swagger
@@ -174,6 +192,11 @@ workoutRoutes.delete('/workouts/:id', controller.removeWorkout)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-workoutRoutes.put('/workouts/:id', controller.updateWorkout)
+workoutRoutes.put(
+  '/workouts/:id',
+  validateParams(idParamSchema),
+  validateBody(updateWorkoutSchema),
+  controller.updateWorkout
+)
 
 export default workoutRoutes

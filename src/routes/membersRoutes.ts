@@ -1,5 +1,11 @@
 import { Router } from 'express'
 import * as controller from '../controllers/memberController'
+import { validateBody, validateParams } from '../middlewares/validation'
+import {
+  createMemberSchema,
+  idParamSchema,
+  updateMemberSchema
+} from '../schemas/validation'
 
 const membersRoutes = Router()
 
@@ -48,7 +54,11 @@ membersRoutes.get('/members', controller.getAllMembers)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-membersRoutes.get('/members/:id', controller.getMemberById)
+membersRoutes.get(
+  '/members/:id',
+  validateParams(idParamSchema),
+  controller.getMemberById
+)
 
 /**
  * @swagger
@@ -88,7 +98,11 @@ membersRoutes.get('/members/:id', controller.getMemberById)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-membersRoutes.post('/members', controller.addNewMember)
+membersRoutes.post(
+  '/members',
+  validateBody(createMemberSchema),
+  controller.addNewMember
+)
 
 /**
  * @swagger
@@ -111,7 +125,11 @@ membersRoutes.post('/members', controller.addNewMember)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-membersRoutes.delete('/members/:id', controller.removeMember)
+membersRoutes.delete(
+  '/members/:id',
+  validateParams(idParamSchema),
+  controller.removeMember
+)
 
 /**
  * @swagger
@@ -159,6 +177,11 @@ membersRoutes.delete('/members/:id', controller.removeMember)
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-membersRoutes.put('/members/:id', controller.updateMember)
+membersRoutes.put(
+  '/members/:id',
+  validateParams(idParamSchema),
+  validateBody(updateMemberSchema),
+  controller.updateMember
+)
 
 export default membersRoutes
