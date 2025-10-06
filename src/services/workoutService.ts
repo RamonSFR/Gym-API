@@ -16,11 +16,22 @@ type workoutCreateData = Omit<Workout, 'id' | 'createdAt' | 'updatedAt'> & {
 type workoutUpdateData = Partial<workoutCreateData>
 
 export const getAll = async (): Promise<Workout[]> => {
-  return prisma.workout.findMany()
+  return prisma.workout.findMany({
+    include: {
+      personal: true,
+      member: true
+    }
+  })
 }
 
 export const getById = async (id: number): Promise<Workout | null> => {
-  return prisma.workout.findUnique({ where: { id } })
+  return prisma.workout.findUnique({
+    where: { id },
+    include: {
+      personal: true,
+      member: true
+    }
+  })
 }
 
 export const add = async (data: workoutCreateData): Promise<Workout> => {

@@ -5,11 +5,20 @@ type memberCreateData = Omit<Member, 'id' | 'createdAt' | 'updatedAt'>
 type memberUpdateData = Partial<memberCreateData>
 
 export const getAll = async (): Promise<Member[]> => {
-  return prisma.member.findMany()
+  return prisma.member.findMany({
+    include: {
+      workouts: true
+    }
+  })
 }
 
 export const getById = async (id: number): Promise<Member | null> => {
-  return prisma.member.findUnique({ where: { id } })
+  return prisma.member.findUnique({
+    where: { id },
+    include: {
+      workouts: true
+    }
+  })
 }
 
 export const update = async (
