@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import { Workout } from '../generated/prisma'
+import * as controller from '../controllers/workoutController'
 
 const workoutRoutes = Router()
 
-workoutRoutes.get('/workouts')
-workoutRoutes.get('/workouts/:id')
-workoutRoutes.post('/workouts')
-workoutRoutes.delete('/workouts/:id')
-workoutRoutes.put('/workouts/:id')
+workoutRoutes.get('/workouts', controller.getAllWorkouts)
+workoutRoutes.get('/workouts/:id', controller.getWorkoutById)
+workoutRoutes.post('/workouts', controller.addNewWorkout)
+workoutRoutes.delete('/workouts/:id', controller.removeWorkout)
+workoutRoutes.put('/workouts/:id', controller.updateWorkout)
 
 export default workoutRoutes
