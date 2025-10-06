@@ -168,14 +168,6 @@ workoutRoutes.delete(
  *                   - name: "Modified Push-ups"
  *                     reps: 20
  *                     interval: 25
- *               personalId:
- *                 type: integer
- *                 description: ID of the personal trainer
- *                 example: 1
- *               memberId:
- *                 type: integer
- *                 description: ID of the member
- *                 example: 2
  *     responses:
  *       200:
  *         description: Workout updated successfully
